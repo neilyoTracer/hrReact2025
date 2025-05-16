@@ -1,3 +1,4 @@
 export function Dashboard() {
-    return (<div>Dashboard</div>)
+    const AppTitle = import.meta.env.VITE_APP_TITLE;
+    return (<div>{AppTitle}</div>)
 }
