@@ -11,7 +11,7 @@ export enum Theme {
 
 export interface AppData {
     token: string | null,
-    theme: Theme,
     useInfo: any,
     permissions: PermissionEnum[]
+    theme?: Theme,
 }
