@@ -15,7 +15,15 @@ export function AppDataProvider({ children }: { children: React.ReactNode }) {
     } as AppData);
     useEffect(() => {
         const themeToken: ThemeConfig = appData.theme === Theme.Light ? DefaultTheme : DarkTheme
-        setAppTheme(themeToken as ThemeConfig)
+        setAppTheme({
+            ...themeToken,
+            components: {
+                Menu: {
+                    darkItemBg: 'rgb(20, 20, 20)',
+                    itemBg: 'rgb(255, 255, 255)'
+                }
+            }
+        })
     }, [appData.theme])
     return (
         <AppDataContext.Provider value={appData}>

@@ -1,7 +1,8 @@
 import { createBrowserRouter, redirect } from "react-router";
-import { Layout } from "../pages/Layout";
 import { Login } from "../pages/Login";
 import App from "../App";
+import { LayoutPage } from "../components/LayoutPage";
+import { NoAuth } from "../pages/NoAuth";
 
 export const router = createBrowserRouter([
     {
@@ -14,7 +15,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'streetlight',
-                Component: Layout,
+                Component: LayoutPage,
                 lazy: {
                     loader: async () => (await import('./loaders')).appLoader
                 },
@@ -28,6 +29,11 @@ export const router = createBrowserRouter([
                         lazy: {
                             Component: async () => (await import('../pages/Dashboard')).Dashboard,
                         },
+                        // Component: Dashboard
+                    },
+                    {
+                        path: 'no-auth',
+                        Component: NoAuth,
                         // Component: Dashboard
                     }
                 ]
