@@ -1,15 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { Outlet, useLoaderData, useNavigate } from "react-router";
-import { useAppData, useAppDataSet } from "../app.context";
+import { useAppDataSet } from "../app.context";
 import { removeToken } from "../utils/auth.utils";
-import { Button, Layout, theme as AntdTheme } from "antd";
-import { Theme } from "../models/app-data.model";
+import { Layout, theme as AntdTheme } from "antd";
 import { SideMenu } from "./SideMenu";
 import { HeaderPart } from "./AppHeader";
 const { Sider, Content } = Layout;
 
 
 export function LayoutPage() {
+    const [showPage, setShowPage] = useState(false);
+    const [isPending, startTransition] = useTransition();
     const [collapsed, setCollapsed] = useState(false);
     const {
         token: { hrBgColor, borderRadiusXS, colorBgContainer }
@@ -24,6 +25,16 @@ export function LayoutPage() {
             ...loaderData
         }))
     }, [setAppData, loaderData])
+
+    // defer to render outlet, because of the permission data
+    useEffect(() => {
+        const clearId = setTimeout(() => {
+            startTransition(() => {
+                setShowPage(true);
+            });
+        })
+        return () => clearTimeout(clearId)
+    }, [])
 
     function logout() {
         removeToken();
@@ -42,19 +53,22 @@ export function LayoutPage() {
         </div> */
     return (
         <Layout style={{ height: '100%' }}>
-            <Sider trigger={null} collapsible collapsed={collapsed} style={{background: colorBgContainer}}>
+            <Sider trigger={null} collapsible collapsed={collapsed} style={{ background: colorBgContainer }}>
                 <SideMenu></SideMenu>
             </Sider>
-            <Layout style={{background: 'transparent'}}>
+            <Layout style={{ background: 'transparent' }}>
                 <HeaderPart onCollapsedChange={setCollapsed} collapsed={collapsed}></HeaderPart>
-                <Content style={{
-                    padding: 5,
-                    minHeight: 280,
-                    background: hrBgColor,
-                    borderRadius: borderRadiusXS
-                }}>
-                    <Outlet />
-                </Content>
+
+                
+                    <Content style={{
+                        padding: 5,
+                        minHeight: 280,
+                        background: hrBgColor,
+                        borderRadius: borderRadiusXS
+                    }}>
+                       { showPage && <Outlet /> }
+                    </Content>
+
             </Layout>
         </Layout>
     );

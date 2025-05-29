@@ -6,17 +6,18 @@ import { PermissionEnum } from '../models/app-data.model';
 const { useToken } = theme;
 
 export function Dashboard() {
-    const AppTitle = import.meta.env.VITE_APP_TITLE;
+    const AppTitle = __APP_TITLE2__;
     const { token, hashId } = useToken();
-    const {colorBgContainer, hrTxColor} = token;
+    const { colorBgContainer, hrTxColor } = token;
     /* const {permissions} = useAppData() as AppData;
     if(!permissions.includes(PermissionEnum.Dashboard)) {
         return <Navigate to="/streetlight/no-auth" replace />;
     } */
-   const {hasAuth} = usePermissions();
-   if(!hasAuth(PermissionEnum.Dashboard)) {
+    const { hasAuth } = usePermissions();
+    if (!hasAuth(PermissionEnum.Dashboard)) {
+        console.log('Dashboard');
         return <Navigate to="/streetlight/no-auth" replace />;
-   }
+    }
     // @ts-ignore
     useStyleRegister(
         // @ts-ignore
