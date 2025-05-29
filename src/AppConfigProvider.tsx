@@ -8,8 +8,7 @@ import { DefaultTheme } from "./theme/defaultThemeToken";
 export function AppConfigProvider({ children }: { children: React.ReactNode }) {
     const [themeToken, setThemeToken] = useState(DefaultTheme);
     return (
-        <ConfigProvider
-            theme={themeToken}>
+        <ConfigProvider theme={themeToken}>
             <AppThemeSetContext value={setThemeToken}>
                 {children}
             </AppThemeSetContext>
