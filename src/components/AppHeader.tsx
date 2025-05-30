@@ -4,15 +4,18 @@ import {
     MenuUnfoldOutlined,
 } from '@ant-design/icons';
 import { Theme } from "../models/app-data.model";
-import { useAppData, useAppDataSet } from "../app.context";
+import { useAppData, useAppDataSet, useBus } from "../app.context";
+import { AppCustomEvent, AppGlobalEventsType } from "../models/app-event.model";
 
 export const HeaderPart = ({ onCollapsedChange, collapsed }) => {
     const setAppData = useAppDataSet()!;
+    const bus = useBus();
     const { theme } = useAppData()!;
     const {
         token: { boxShadowSecondary, colorBgContainer }
     } = AntdTheme.useToken();
     function changeAppTheme() {
+        bus?.emit(AppCustomEvent, {type: AppGlobalEventsType.TEST, data: 'test'});
         setAppData(appdata => ({
             ...appdata,
             theme: theme === Theme.Light ? Theme.Dark : Theme.Light
